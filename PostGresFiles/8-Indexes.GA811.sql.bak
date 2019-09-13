@@ -1,0 +1,285 @@
+CREATE INDEX IF NOT EXISTS ix_parcel_addr ON corelogic.parcel USING btree(addr);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_apn ON corelogic.parcel USING btree(apn);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_apn2 ON corelogic.parcel USING BTREE(apn2);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_city ON corelogic.parcel USING btree(city);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_countycode ON corelogic.parcel USING btree(county_code);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_owner ON corelogic.parcel USING btree(owner);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_std_addr ON corelogic.parcel USING btree(std_addr);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_std_city ON corelogic.parcel USING btree(std_city);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_std_zip ON corelogic.parcel USING btree(std_zip);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_zip ON corelogic.parcel USING btree(zip);
+
+CREATE INDEX IF NOT EXISTS six_parcel_geo ON corelogic.parcel_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_parcel_geom ON corelogic.parcel_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_state_name ON gis.state USING btree(name);
+
+CREATE INDEX IF NOT EXISTS uix_state_state_fips ON gis.state USING btree(state_fips);
+
+CREATE INDEX IF NOT EXISTS ix_county_name ON gis.county USING btree(name);
+
+CREATE INDEX IF NOT EXISTS ix_county_state_key ON gis.county USING btree(state_key);
+
+CREATE INDEX IF NOT EXISTS uix_county_fips ON gis.county USING btree(state_key, county_fips);
+
+CREATE INDEX IF NOT EXISTS ix_carto_ocean_name ON gis.carto_ocean USING btree(name);
+
+CREATE INDEX IF NOT EXISTS six_carto_ocean_geo ON gis.carto_ocean_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_carto_ocean_geom ON gis.carto_ocean_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_county_geo ON gis.county_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_county_geom ON gis.county_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_county_label_geo ON gis.county_label_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_county_label_geom ON gis.county_label_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_parcel_address_addr_num ON gis.parcel_address USING BTREE(addr_num);
+
+CREATE INDEX IF NOT EXISTS six_park_rec_geom ON gis.park_rec_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_place_name ON gis.place_name USING BTREE(name, county_key, zipcode);
+
+CREATE INDEX IF NOT EXISTS uix_place_name_county ON gis.place_name_county USING BTREE(county_key, name);
+
+CREATE INDEX IF NOT EXISTS uix_place_name_county_zip ON gis.place_name_county_zip USING BTREE(zipcode, name);
+
+CREATE INDEX IF NOT EXISTS six_place_name_geo ON gis.place_name_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_place_name_geom ON gis.place_name_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_place_name_zip ON gis.place_name_zip USING BTREE(zipcode, name);
+
+CREATE INDEX IF NOT EXISTS ix_poi_county_key ON gis.poi USING BTREE(county_key);
+
+CREATE INDEX IF NOT EXISTS uix_poi ON gis.poi USING BTREE(poi_id);
+
+CREATE INDEX IF NOT EXISTS six_state_bbox_geo ON gis.state_bbox_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_state_bbox_geom ON gis.state_bbox_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_state_geo ON gis.state_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_state_geom ON gis.state_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_street_county ON gis.street_county USING BTREE(street_id, county_key);
+
+CREATE INDEX IF NOT EXISTS uix_street_county_intersection ON gis.street_county_intersection USING BTREE(street_id, i_street_id, county_key);
+
+CREATE INDEX IF NOT EXISTS uix_street_county_place_name ON gis.street_county_place_name USING BTREE(county_key, place_name, street_id);
+
+CREATE INDEX IF NOT EXISTS six_street_geo ON gis.street_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_street_geom ON gis.street_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_street_name1 ON gis.street_name USING BTREE(canonical_name);
+
+CREATE INDEX IF NOT EXISTS uix_street_zip ON gis.street_zip USING BTREE(street_id, zipcode);
+
+CREATE INDEX IF NOT EXISTS six_travel_dest_geo ON gis.travel_dest_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_travel_dest_geom ON gis.travel_dest_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_admin_area_polygonid ON here.admin_area USING btree(polygon_id);
+
+CREATE INDEX IF NOT EXISTS uix_admin_area_areaid ON here.admin_area USING btree(area_id);
+
+CREATE INDEX IF NOT EXISTS six_admin_area_geo ON here.admin_area_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_admin_area_geom ON here.admin_area_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy3_area_id ON here.admin_bndy3 USING btree(area_id);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy3_name ON here.admin_bndy3 USING btree(name);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy3_polygon_id ON here.admin_bndy3 USING btree(polygon_id);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy4_area_id ON here.admin_bndy4 USING btree(area_id);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy4_name ON here.admin_bndy4 USING btree(name);
+
+CREATE INDEX IF NOT EXISTS ix_admin_bndy4_polygon_id ON here.admin_bndy4 USING btree(polygon_id);
+
+CREATE INDEX IF NOT EXISTS uix_admin_line1_link_id ON here.admin_line1 USING btree(link_id);
+
+CREATE INDEX IF NOT EXISTS six_admin_line1_geo ON here.admin_line1_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_admin_line1_geom ON here.admin_line1_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_admin_line2_link_id ON here.admin_line2 USING btree(link_id);
+
+CREATE INDEX IF NOT EXISTS six_admin_line2_geo ON here.admin_line2_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_admin_line2_geom ON here.admin_line2_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_street_feature_id ON here.street USING btree(feature_id);
+
+CREATE INDEX IF NOT EXISTS ix_street_left_area_id ON here.street USING btree(left_area_id);
+
+CREATE INDEX IF NOT EXISTS ix_street_left_zip ON here.street USING btree(left_zip);
+
+CREATE INDEX IF NOT EXISTS ix_street_right_area_id ON here.street USING btree(right_area_id);
+
+CREATE INDEX IF NOT EXISTS ix_street_right_zip ON here.street USING btree(right_zip);
+
+CREATE INDEX IF NOT EXISTS uix_street_link_id ON here.street USING btree(link_id);
+
+CREATE INDEX IF NOT EXISTS ix_alt_street_feature_id ON here.alt_street USING BTREE(feature_id);
+
+CREATE INDEX IF NOT EXISTS ix_alt_street_link_id ON here.alt_street USING btree(link_id);
+
+CREATE INDEX IF NOT EXISTS six_auto_service_geo ON here.auto_service_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_auto_service_geom ON here.auto_service_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_business_geo ON here.business_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_business_geom ON here.business_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_carto_state_link_id ON here.carto_state USING btree(link_id);
+
+CREATE INDEX IF NOT EXISTS six_carto_state_geo ON here.carto_state_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_carto_state_geom ON here.carto_state_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_city_geo ON here.city_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_city_geom ON here.city_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_community_service_geo ON here.community_service_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_community_service_geom ON here.community_service_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_county ON here.county USING BTREE(county_key);
+
+CREATE INDEX IF NOT EXISTS six_county_geo ON here.county_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_county_geom ON here.county_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_educational_institution_geo ON here.educational_institution_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_educational_institution_geom ON here.educational_institution_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_entertainment_geo ON here.entertainment_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_entertainment_geom ON here.entertainment_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_financial_institution_geo ON here.financial_institution_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_financial_institution_geom ON here.financial_institution_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_hamlet_geo ON here.hamlet_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_hamlet_geom ON here.hamlet_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_hospital_geo ON here.hospital_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_hospital_geom ON here.hospital_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_island_geo ON here.island_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_island_geom ON here.island_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_land_use_a_geo ON here.land_use_a_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_land_use_a_geom ON here.land_use_a_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_land_use_b_geo ON here.land_use_b_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_land_use_b_geom ON here.land_use_b_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_lane ON here.lane USING BTREE(lane_id, link_id);
+
+CREATE INDEX IF NOT EXISTS uix_major_hwy_link_id_name ON here.major_hwy USING BTREE(link_id, name);
+
+CREATE INDEX IF NOT EXISTS uix_major_hwy_shield_link_id_hwy_type ON here.major_hwy_shield USING btree(link_id, hwy_type);
+
+CREATE INDEX IF NOT EXISTS six_major_hwy_shield_geo ON here.major_hwy_shield_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_major_hwy_shield_geom ON here.major_hwy_shield_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_metadata_admin_area ON here.metadata_admin_area USING BTREE(area_id, area_name_type);
+
+CREATE INDEX IF NOT EXISTS six_misc_category_geo ON here.misc_category_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_misc_category_geom ON here.misc_category_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_named_place_geo ON here.named_place_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_named_place_geom ON here.named_place_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_ocean_geo ON here.ocean_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_ocean_geom ON here.ocean_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_park_rec_geo ON here.park_rec_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_parking_geo ON here.parking_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_parking_geom ON here.parking_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_poi_attr_poi_id ON here.poi_attr USING btree(poi_id);
+
+CREATE INDEX IF NOT EXISTS six_postal_area_geo ON here.postal_area_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_postal_area_geom ON here.postal_area_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_railroad ON here.railroad USING (link_id, name);
+
+CREATE INDEX IF NOT EXISTS six_railroad_geo ON here.railroad_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_railroad_geom ON here.railroad_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS uix_sec_hwy_link_id_name ON here.sec_hwy USING BTREE(link_id, name);
+
+CREATE INDEX IF NOT EXISTS uix_sec_hwy_shield_link_id_hwy_type ON here.sec_hwy_shield USING btree(link_id, hwy_type);
+
+CREATE INDEX IF NOT EXISTS six_sec_hwy_shield_geo ON here.sec_hwy_shield_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_sec_hwy_shield_geom ON here.sec_hwy_shield_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_shopping_geo ON here.shopping_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_shopping_geom ON here.shopping_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_state_geo ON here.state_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_state_geom ON here.state_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_street_geo ON here.street_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_street_geom ON here.street_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_transportation_hub_geo ON here.transportation_hub_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_transportation_hub_geom ON here.transportation_hub_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_water_polygon_geo ON here.water_polygon_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_water_polygon_geom ON here.water_polygon_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS six_water_segment_geo ON here.water_segment_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_water_segment_geom ON here.water_segment_geom USING GIST(geom);
+
+CREATE INDEX IF NOT EXISTS ix_zlevel_link_id ON here.zlevel USING BTREE(link_id);
+
+CREATE INDEX IF NOT EXISTS uix_zlevel_link_id_point_num ON here.zlevel USING BTREE(link_id, point_num);
+
+CREATE INDEX IF NOT EXISTS uix_zlevel_node_id_link_id ON here.zlevel USING BTREE(node_id, link_id);
+
+CREATE INDEX IF NOT EXISTS six_building_footprint_geo ON ms.building_footprint_geo USING GIST(geo);
+
+CREATE INDEX IF NOT EXISTS six_building_footprint_geom ON ms.building_footprint_geom USING GIST(geom);

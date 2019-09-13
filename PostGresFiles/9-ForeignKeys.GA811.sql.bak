@@ -1,0 +1,479 @@
+ALTER TABLE corelogic.parcel_geo
+  ADD CONSTRAINT fk_parcel_geo_parcel
+  FOREIGN KEY (parcel_id) REFERENCES corelogic.parcel (parcel_id);
+
+ALTER TABLE corelogic.parcel_geom
+  ADD CONSTRAINT fk_parcel_geom_parcel
+  FOREIGN KEY (parcel_id) REFERENCES corelogic.parcel (parcel_id);
+
+ALTER TABLE gis.county
+  ADD CONSTRAINT fk_county_state
+  FOREIGN KEY (state_key) REFERENCES gis.state (state_key);
+
+ALTER TABLE gis.adjacent_county
+  ADD CONSTRAINT fk_adjacent_county_county
+  FOREIGN KEY (county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.adjacent_county
+  ADD CONSTRAINT fk_adjacent_county_adjacent_county
+  FOREIGN KEY (adjacent_county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.carto_ocean_geo
+  ADD CONSTRAINT fk_carto_ocean_geo_carto_ocean
+  FOREIGN KEY (id) REFERENCES gis.carto_ocean (id);
+
+ALTER TABLE gis.carto_ocean_geom
+  ADD CONSTRAINT fk_carto_ocean_geom_carto_ocean
+  FOREIGN KEY (id) REFERENCES gis.carto_ocean (id);
+
+ALTER TABLE gis.county_geo
+  ADD CONSTRAINT fk_county_geo_county
+  FOREIGN KEY (county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.county_geom
+  ADD CONSTRAINT fk_county_geom_county
+  FOREIGN KEY (county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.county_label_geo
+  ADD CONSTRAINT fk_county_label_geo_county
+  FOREIGN KEY (county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.county_label_geom
+  ADD CONSTRAINT fk_county_label_geom_county
+  FOREIGN KEY (county_key) REFERENCES gis.county (county_key);
+
+ALTER TABLE gis.parcel_address
+  ADD CONSTRAINT fk_parcel_address_parcel
+  FOREIGN KEY (parcel_id) REFERENCES gis.parcel (parcel_id);
+
+ALTER TABLE gis.parcel_apn
+  ADD CONSTRAINT fk_parcel_apn_parcel
+  FOREIGN KEY (parcel_id) REFERENCES gis.parcel (parcel_id);
+
+ALTER TABLE gis.parcel_geo
+  ADD CONSTRAINT fk_parcel_geo_parcel
+  FOREIGN KEY (parcel_id) REFERENCES gis.parcel (parcel_id);
+
+ALTER TABLE gis.parcel_geom
+  ADD CONSTRAINT fk_parcel_geom_parcel
+  FOREIGN KEY (parcel_id) REFERENCES gis.parcel (parcel_id);
+
+ALTER TABLE gis.parcel_parsed
+  ADD CONSTRAINT fk_parcel_parsed_parcel
+  FOREIGN KEY (parcel_id) REFERENCES gis.parcel (parcel_id);
+
+ALTER TABLE gis.park_rec_geom
+  ADD CONSTRAINT fk_park_rec_geom_park_rec
+  FOREIGN KEY (id) REFERENCES here.park_rec (id);
+
+ALTER TABLE gis.place_name_county_geo
+  ADD CONSTRAINT fk_place_name_county_geo_place_name_county
+  FOREIGN KEY (id) REFERENCES gis.place_name_county (id);
+
+ALTER TABLE gis.place_name_county_geom
+  ADD CONSTRAINT fk_place_name_county_geom_place_name_county
+  FOREIGN KEY (id) REFERENCES gis.place_name_county (id);
+
+ALTER TABLE gis.place_name_county_zip_geo
+  ADD CONSTRAINT fk_place_name_county_zip_geo_place_name_county_zip
+  FOREIGN KEY (id) REFERENCES gis.place_name_county_zip (id);
+
+ALTER TABLE gis.place_name_county_zip_geom
+  ADD CONSTRAINT fk_place_name_county_zip_geom_place_name_county_zip
+  FOREIGN KEY (id) REFERENCES gis.place_name_county_zip (id);
+
+ALTER TABLE gis.place_name_geo
+  ADD CONSTRAINT fk_place_name_geo_place_name
+  FOREIGN KEY (place_name_id) REFERENCES gis.place_name (place_name_id);
+
+ALTER TABLE gis.place_name_geom
+  ADD CONSTRAINT fk_place_name_geom_place_name
+  FOREIGN KEY (place_name_id) REFERENCES gis.place_name (place_name_id);
+
+ALTER TABLE gis.place_name_src_geo
+  ADD CONSTRAINT fk_place_name_src_geo_place_name_src
+  FOREIGN KEY (id) REFERENCES gis.place_name_src (id);
+
+ALTER TABLE gis.place_name_src_geom
+  ADD CONSTRAINT fk_place_name_src_geom_place_name_src
+  FOREIGN KEY (id) REFERENCES gis.place_name_src (id);
+
+ALTER TABLE gis.place_name_zip_geo
+  ADD CONSTRAINT fk_place_name_zip_geo_place_name_zip
+  FOREIGN KEY (id) REFERENCES gis.place_name_zip (id);
+
+ALTER TABLE gis.place_name_zip_geom
+  ADD CONSTRAINT fk_place_name_zip_geom_place_name_zip
+  FOREIGN KEY (id) REFERENCES gis.place_name_zip (id);
+
+ALTER TABLE gis.state_bbox_geo
+  ADD CONSTRAINT fk_state_bbox_geo_state
+  FOREIGN KEY (state_key) REFERENCES gis.state (state_key);
+
+ALTER TABLE gis.state_bbox_geom
+  ADD CONSTRAINT fk_state_bbox_geom_state
+  FOREIGN KEY (state_key) REFERENCES gis.state (state_key);
+
+ALTER TABLE gis.state_geo
+  ADD CONSTRAINT fk_state_geo_state
+  FOREIGN KEY (state_key) REFERENCES gis.state (state_key);
+
+ALTER TABLE gis.state_geom
+  ADD CONSTRAINT fk_state_grom_state
+  FOREIGN KEY (state_key) REFERENCES gis.state (state_key);
+
+ALTER TABLE gis.street_address_range
+  ADD CONSTRAINT fk_street_address_range_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_county
+  ADD CONSTRAINT fk_street_county_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_county_intersection
+  ADD CONSTRAINT fk_street_county_intersection_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_county_intersection
+  ADD CONSTRAINT fk_street_county_intersection_street2
+  FOREIGN KEY (i_street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_county_place_name
+  ADD CONSTRAINT fk_street_place_name_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_geo
+  ADD CONSTRAINT fk_street_geo_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_geom
+  ADD CONSTRAINT fk_street_geom_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_name
+  ADD CONSTRAINT fk_street_name_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.street_zip
+  ADD CONSTRAINT fk_street_zip_street
+  FOREIGN KEY (street_id) REFERENCES gis.street (street_id);
+
+ALTER TABLE gis.travel_dest_geo
+  ADD CONSTRAINT fk_travel_dest_geo_travel_dest
+  FOREIGN KEY (id) REFERENCES here.travel_dest (id);
+
+ALTER TABLE gis.travel_dest_geom
+  ADD CONSTRAINT fk_travel_dest_geom_travel_dest
+  FOREIGN KEY (id) REFERENCES here.travel_dest (id);
+
+ALTER TABLE here.admin_area_geo
+  ADD CONSTRAINT fk_admin_area_geo_admin_area
+  FOREIGN KEY (id) REFERENCES here.admin_area (id);
+
+ALTER TABLE here.admin_area_geom
+  ADD CONSTRAINT fk_admin_area_geom_admin_area
+  FOREIGN KEY (id) REFERENCES here.admin_area (id);
+
+ALTER TABLE here.admin_bndy2_geo
+  ADD CONSTRAINT fk_admin_bndy2_geo_admin_bndy2
+  FOREIGN KEY (id) REFERENCES here.admin_bndy2 (Id);
+
+ALTER TABLE here.admin_bndy2_geom
+  ADD CONSTRAINT fk_admin_bndy2_geom_admin_bndy2
+  FOREIGN KEY (id) REFERENCES here.admin_bndy2 (Id);
+
+ALTER TABLE here.admin_bndy3_geo
+  ADD CONSTRAINT fk_admin_bndy3_geo_admin_bndy3
+  FOREIGN KEY (id) REFERENCES here.admin_bndy3 (id);
+
+ALTER TABLE here.admin_bndy3_geom
+  ADD CONSTRAINT fk_admin_bndy3_geom_admin_bndy3
+  FOREIGN KEY (id) REFERENCES here.admin_bndy3 (id);
+
+ALTER TABLE here.admin_bndy4_geo
+  ADD CONSTRAINT fk_admin_bndy4_geo_admin_bndy4
+  FOREIGN KEY (id) REFERENCES here.admin_bndy4 (id);
+
+ALTER TABLE here.admin_bndy4_geom
+  ADD CONSTRAINT fk_admin_bndy4_geom_admin_bndy4
+  FOREIGN KEY (id) REFERENCES here.admin_bndy4 (id);
+
+ALTER TABLE here.admin_line1_geo
+  ADD CONSTRAINT fk_admin_line1_geo_admin_line1
+  FOREIGN KEY (id) REFERENCES here.admin_line1 (id);
+
+ALTER TABLE here.admin_line1_geom
+  ADD CONSTRAINT fk_admin_line1_geom_admin_line1
+  FOREIGN KEY (id) REFERENCES here.admin_line1 (id);
+
+ALTER TABLE here.admin_line2_geo
+  ADD CONSTRAINT fk_admin_line2_geo_admin_line2
+  FOREIGN KEY (id) REFERENCES here.admin_line2 (id);
+
+ALTER TABLE here.admin_line2_geom
+  ADD CONSTRAINT fk_admin_line2_geom_admin_line2
+  FOREIGN KEY (id) REFERENCES here.admin_line2 (id);
+
+ALTER TABLE here.alt_street
+  ADD CONSTRAINT fk_alt_street_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.auto_service_geo
+  ADD CONSTRAINT fk_auto_service_geo_auto_service
+  FOREIGN KEY (id) REFERENCES here.auto_service (id);
+
+ALTER TABLE here.auto_service_geom
+  ADD CONSTRAINT fk_auto_service_geom_auto_service
+  FOREIGN KEY (id) REFERENCES here.auto_service (id);
+
+ALTER TABLE here.business_geo
+  ADD CONSTRAINT fk_business_geo_business
+  FOREIGN KEY (id) REFERENCES here.business (id);
+
+ALTER TABLE here.business_geom
+  ADD CONSTRAINT fk_business_geom_business
+  FOREIGN KEY (id) REFERENCES here.business (id);
+
+ALTER TABLE here.carto_state_geo
+  ADD CONSTRAINT fk_carto_state_geo_carto_state
+  FOREIGN KEY (id) REFERENCES here.carto_state (id);
+
+ALTER TABLE here.carto_state_geom
+  ADD CONSTRAINT fk_carto_state_geom_carto_state
+  FOREIGN KEY (id) REFERENCES here.carto_state (id);
+
+ALTER TABLE here.city_geo
+  ADD CONSTRAINT fk_city_geo_city
+  FOREIGN KEY (id) REFERENCES here.city (id);
+
+ALTER TABLE here.city_geom
+  ADD CONSTRAINT fk_city_geom_city
+  FOREIGN KEY (id) REFERENCES here.city (id);
+
+ALTER TABLE here.community_service_geo
+  ADD CONSTRAINT fk_community_service_geo_community_service
+  FOREIGN KEY (id) REFERENCES here.community_service (id);
+
+ALTER TABLE here.community_service_geom
+  ADD CONSTRAINT fk_community_service_geom_community_service
+  FOREIGN KEY (id) REFERENCES here.community_service (id);
+
+ALTER TABLE here.county_geo
+  ADD CONSTRAINT fk_county_geo_county
+  FOREIGN KEY (id) REFERENCES here.county (id);
+
+ALTER TABLE here.county_geom
+  ADD CONSTRAINT fk_county_geom_county
+  FOREIGN KEY (id) REFERENCES here.county (id);
+
+ALTER TABLE here.educational_institution_geo
+  ADD CONSTRAINT fk_educational_institution_geo_educational_institution
+  FOREIGN KEY (id) REFERENCES here.educational_institution (id);
+
+ALTER TABLE here.educational_institution_geom
+  ADD CONSTRAINT fk_educational_institution_geom_educational_institution
+  FOREIGN KEY (id) REFERENCES here.educational_institution (id);
+
+ALTER TABLE here.entertainment_geo
+  ADD CONSTRAINT fk_entertainment_geo_entertainment
+  FOREIGN KEY (id) REFERENCES here.entertainment (id);
+
+ALTER TABLE here.entertainment_geom
+  ADD CONSTRAINT fk_entertainment_geom_entertainment
+  FOREIGN KEY (id) REFERENCES here.entertainment (id);
+
+ALTER TABLE here.financial_institution_geo
+  ADD CONSTRAINT fk_financial_institution_geo_financial_institution
+  FOREIGN KEY (id) REFERENCES here.financial_institution (id);
+
+ALTER TABLE here.financial_institution_geom
+  ADD CONSTRAINT fk_financial_institution_geom_financial_institution
+  FOREIGN KEY (id) REFERENCES here.financial_institution (id);
+
+ALTER TABLE here.hamlet_geo
+  ADD CONSTRAINT fk_hamlet_geo_hamlet
+  FOREIGN KEY (id) REFERENCES here.hamlet (id);
+
+ALTER TABLE here.hamlet_geom
+  ADD CONSTRAINT fk_hamlet_geom_hamlet
+  FOREIGN KEY (id) REFERENCES here.hamlet (id);
+
+ALTER TABLE here.hospital_geo
+  ADD CONSTRAINT fk_hospital_geo_hospital
+  FOREIGN KEY (id) REFERENCES here.hospital (id);
+
+ALTER TABLE here.hospital_geom
+  ADD CONSTRAINT fk_hospital_geom_hospital
+  FOREIGN KEY (id) REFERENCES here.hospital (id);
+
+ALTER TABLE here.island_geo
+  ADD CONSTRAINT fk_island_geo_island
+  FOREIGN KEY (id) REFERENCES here.island (id);
+
+ALTER TABLE here.island_geom
+  ADD CONSTRAINT fk_island_geom_island
+  FOREIGN KEY (id) REFERENCES here.island (id);
+
+ALTER TABLE here.land_use_a_geo
+  ADD CONSTRAINT fk_land_use_a_geo_land_use_a
+  FOREIGN KEY (id) REFERENCES here.land_use_a (id);
+
+ALTER TABLE here.land_use_a_geom
+  ADD CONSTRAINT fk_land_use_a_geom_land_use_a
+  FOREIGN KEY (id) REFERENCES here.land_use_a (id);
+
+ALTER TABLE here.land_use_b_geo
+  ADD CONSTRAINT fk_land_use_b_geo_land_use_b
+  FOREIGN KEY (id) REFERENCES here.land_use_b (id);
+
+ALTER TABLE here.land_use_b_geom
+  ADD CONSTRAINT fk_land_use_b_geom_land_use_b
+  FOREIGN KEY (id) REFERENCES here.land_use_b (id);
+
+ALTER TABLE here.lane
+  ADD CONSTRAINT fk_lane_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.major_hwy
+  ADD CONSTRAINT fk_major_hwy_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.major_hwy_shield
+  ADD CONSTRAINT fk_major_hwy_shield_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.major_hwy_shield_geo
+  ADD CONSTRAINT fk_major_hwy_shield_geo_major_hwy_shield
+  FOREIGN KEY (id) REFERENCES here.major_hwy_shield (id);
+
+ALTER TABLE here.major_hwy_shield_geom
+  ADD CONSTRAINT fk_major_hwy_shield_geom_major_hwy_shield
+  FOREIGN KEY (id) REFERENCES here.major_hwy_shield (id);
+
+ALTER TABLE here.misc_category_geo
+  ADD CONSTRAINT fk_misc_category_geo_misc_category
+  FOREIGN KEY (id) REFERENCES here.misc_category (id);
+
+ALTER TABLE here.misc_category_geom
+  ADD CONSTRAINT fk_misc_category_geom_misc_category
+  FOREIGN KEY (id) REFERENCES here.misc_category (id);
+
+ALTER TABLE here.named_place_geo
+  ADD CONSTRAINT fk_named_place_geo_named_place
+  FOREIGN KEY (id) REFERENCES here.named_place (id);
+
+ALTER TABLE here.named_place_geom
+  ADD CONSTRAINT fk_named_place_geom_named_place
+  FOREIGN KEY (id) REFERENCES here.named_place (id);
+
+ALTER TABLE here.ocean_geo
+  ADD CONSTRAINT fk_ocean_geo_ocean
+  FOREIGN KEY (id) REFERENCES here.ocean (id);
+
+ALTER TABLE here.ocean_geom
+  ADD CONSTRAINT fk_ocean_geom_ocean
+  FOREIGN KEY (id) REFERENCES here.ocean (id);
+
+ALTER TABLE here.park_rec_geo
+  ADD CONSTRAINT fk_park_rec_geo_park_rec
+  FOREIGN KEY (id) REFERENCES here.park_rec (id);
+
+ALTER TABLE here.parking_geo
+  ADD CONSTRAINT fk_parking_geo_parking
+  FOREIGN KEY (id) REFERENCES here.parking (id);
+
+ALTER TABLE here.parking_geom
+  ADD CONSTRAINT fk_parking_geom_parking
+  FOREIGN KEY (id) REFERENCES here.parking (id);
+
+ALTER TABLE here.postal_area_geo
+  ADD CONSTRAINT fk_postal_area_geo_postal_area
+  FOREIGN KEY (id) REFERENCES here.postal_area (id);
+
+ALTER TABLE here.postal_area_geom
+  ADD CONSTRAINT fk_postal_area_geom_postal_area
+  FOREIGN KEY (id) REFERENCES here.postal_area (id);
+
+ALTER TABLE here.railroad_geo
+  ADD CONSTRAINT fk_railroad_geo_railroad
+  FOREIGN KEY (id) REFERENCES here.railroad (id);
+
+ALTER TABLE here.railroad_geom
+  ADD CONSTRAINT fk_railroad_geom_railroad
+  FOREIGN KEY (id) REFERENCES here.railroad (id);
+
+ALTER TABLE here.sec_hwy
+  ADD CONSTRAINT fk_sec_hwy_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.sec_hwy_shield
+  ADD CONSTRAINT fk_sec_hwy_shield_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.sec_hwy_shield_geo
+  ADD CONSTRAINT fk_sec_hwy_shield_geo_sec_hwy_shield
+  FOREIGN KEY (id) REFERENCES here.sec_hwy_shield (id);
+
+ALTER TABLE here.sec_hwy_shield_geom
+  ADD CONSTRAINT fk_sec_hwy_shield_geom_sec_hwy_shield
+  FOREIGN KEY (id) REFERENCES here.sec_hwy_shield (id);
+
+ALTER TABLE here.shopping_geo
+  ADD CONSTRAINT fk_shopping_geo_shopping
+  FOREIGN KEY (id) REFERENCES here.shopping (id);
+
+ALTER TABLE here.shopping_geom
+  ADD CONSTRAINT fk_shopping_geom_shopping
+  FOREIGN KEY (id) REFERENCES here.shopping (id);
+
+ALTER TABLE here.state_geo
+  ADD CONSTRAINT fk_state_geo_state
+  FOREIGN KEY (id) REFERENCES here.state (id);
+
+ALTER TABLE here.state_geom
+  ADD CONSTRAINT fk_state_geom_state
+  FOREIGN KEY (id) REFERENCES here.state (id);
+
+ALTER TABLE here.street_geo
+  ADD CONSTRAINT fk_street_geo_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.street_geom
+  ADD CONSTRAINT fk_street_geom_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE here.transportation_hub_geo
+  ADD CONSTRAINT fk_transportation_hub_geo_transportation_hub
+  FOREIGN KEY (id) REFERENCES here.transportation_hub (id);
+
+ALTER TABLE here.transportation_hub_geom
+  ADD CONSTRAINT fk_transportation_hub_geom_transportation_hub
+  FOREIGN KEY (id) REFERENCES here.transportation_hub (id);
+
+ALTER TABLE here.water_polygon_geo
+  ADD CONSTRAINT fk_water_polygon_geo_water_polygon
+  FOREIGN KEY (id) REFERENCES here.water_polygon (id);
+
+ALTER TABLE here.water_polygon_geom
+  ADD CONSTRAINT fk_water_polygon_geom_water_polygon
+  FOREIGN KEY (id) REFERENCES here.water_polygon (id);
+
+ALTER TABLE here.water_segment_geo
+  ADD CONSTRAINT fk_water_segment_geo_water_segment
+  FOREIGN KEY (link_id) REFERENCES here.water_segment (link_id);
+
+ALTER TABLE here.water_segment_geom
+  ADD CONSTRAINT fk_water_segment_geom_water_segment
+  FOREIGN KEY (link_id) REFERENCES here.water_segment (link_id);
+
+ALTER TABLE here.zlevel
+  ADD CONSTRAINT fk_zlevel_street
+  FOREIGN KEY (link_id) REFERENCES here.street (link_id);
+
+ALTER TABLE ms.building_footprint_geo
+  ADD CONSTRAINT fk_building_footprint_geo_building_footprint
+  FOREIGN KEY (id) REFERENCES ms.building_footprint (id);
+
+ALTER TABLE ms.building_footprint_geom
+  ADD CONSTRAINT fk_building_footprint_geom_building_footprint
+  FOREIGN KEY (id) REFERENCES ms.building_footprint (id);

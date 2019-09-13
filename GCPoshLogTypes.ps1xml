@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Types>
+  <Type>
+    <Name>GeoCallLog</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>LogType</Name>
+              <Name>LogId</Name>
+              <Name>EventDateTime</Name>
+              <Name>EventLevel</Name>
+              <Name>Component</Name>
+              <Name>Message</Name>
+              <Name>Exception</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
+</Types>

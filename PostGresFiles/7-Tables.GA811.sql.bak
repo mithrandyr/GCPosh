@@ -1,0 +1,1514 @@
+
+CREATE UNLOGGED TABLE IF NOT EXISTS corelogic.parcel (
+  parcel_id INTEGER NOT NULL,
+  state_code CHAR(2),
+  county_code CHAR(3),
+  apn VARCHAR(50),
+  apn2 VARCHAR(50),
+  owner VARCHAR(50),
+  addr VARCHAR(100),
+  city VARCHAR(40),
+  state CHAR(2),
+  zip CHAR(5) DEFAULT '00000',
+  plus VARCHAR(4),
+  std_addr VARCHAR(100),
+  std_city VARCHAR(40),
+  std_state CHAR(2),
+  std_zip CHAR(5) DEFAULT '00000',
+  std_plus VARCHAR(4),
+  CONSTRAINT pk_parcel PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS corelogic.parcel_geo (
+  parcel_id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_parcel_geo PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS corelogic.parcel_geom (
+  parcel_id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_parcel_geom PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.state (
+  state_key CHAR(2) NOT NULL,
+  state_fips CHAR(2) NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  CONSTRAINT pk_state PRIMARY KEY (state_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.county (
+  county_key CHAR(5) NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  county_fips CHAR(3) NOT NULL,
+  name VARCHAR(150) NOT NULL,
+  CONSTRAINT pk_county PRIMARY KEY (county_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.adjacent_county (
+  id INTEGER NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  adjacent_county_key CHAR(5) NOT NULL,
+  CONSTRAINT pk_adjacent_county PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.carto_ocean (
+  id INTEGER NOT NULL,
+  name VARCHAR(120) NOT NULL,
+  display_class SMALLINT NOT NULL,
+  CONSTRAINT pk_carto_ocean PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.carto_ocean_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_carto_ocean_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.carto_ocean_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_carto_ocean_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.county_geo (
+  county_key CHAR(5) NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_county_geo PRIMARY KEY (county_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.county_geom (
+  county_key CHAR(5) NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_county_geom PRIMARY KEY (county_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.county_label_geo (
+  county_key CHAR(5) NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_county_label_geo PRIMARY KEY (county_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.county_label_geom (
+  county_key CHAR(5) NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_county_label_geom PRIMARY KEY (county_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel (
+  parcel_id INTEGER NOT NULL,
+  state_code CHAR(2) NOT NULL,
+  county_code CHAR(5) NOT NULL,
+  CONSTRAINT pk_parcel PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel_address (
+  parcel_id INTEGER NOT NULL,
+  addr_num INTEGER DEFAULT 0 NOT NULL,
+  street_name VARCHAR(180) NOT NULL,
+  place_name VARCHAR(105) NOT NULL,
+  zip CHAR(5) DEFAULT '00000' NOT NULL,
+  CONSTRAINT pk_parcel_address PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel_apn (
+  id INTEGER NOT NULL,
+  parcel_id INTEGER NOT NULL,
+  apn VARCHAR(50) NOT NULL,
+  CONSTRAINT pk_parcel_apn PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel_geo (
+  parcel_id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_parcel_geo PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel_geom (
+  parcel_id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_parcel_geom PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.parcel_parsed (
+  parcel_id INTEGER NOT NULL,
+  full_addr VARCHAR(225) NOT NULL,
+  parsed_addr JSON,
+  CONSTRAINT pk_parcel_parsed PRIMARY KEY (parcel_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.park_rec (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_park_rec PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.park_rec_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_park_rec_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name (
+  place_name_id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  county_key CHAR(5),
+  zipcode CHAR(5) DEFAULT '00000',
+  CONSTRAINT pk_place_name PRIMARY KEY (place_name_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county (
+  id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  CONSTRAINT pk_place_name_county PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_place_name_county_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_place_name_county_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county_zip (
+  id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  zipcode CHAR(5) DEFAULT '00000' NOT NULL,
+  CONSTRAINT pk_place_name_county_zip PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county_zip_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_place_name_county_zip_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_county_zip_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_place_name_county_zip_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_geo (
+  place_name_id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_place_name_geo PRIMARY KEY (place_name_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_geom (
+  place_name_id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_place_name_geom PRIMARY KEY (place_name_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_src (
+  id INTEGER NOT NULL,
+  src_key VARCHAR(40) NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  is_valid BOOLEAN,
+  county_key CHAR(5),
+  zipcode CHAR(5) DEFAULT '00000',
+  CONSTRAINT pk_place_name_src PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_src_geo (
+  id INTEGER NOT NULL,
+  geo_point GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_place_name_src_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_src_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_place_name_src_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_zip (
+  id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  zipcode CHAR(5) DEFAULT '00000' NOT NULL,
+  CONSTRAINT pk_place_name_zip PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_zip_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_place_name_zip_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.place_name_zip_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_place_name_zip_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.poi (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  chain_id INTEGER,
+  zip CHAR(5) DEFAULT '00000',
+  placename VARCHAR(105),
+  CONSTRAINT pk_poi PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.state_bbox_geo (
+  state_key CHAR(2) NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_state_bbox_geo PRIMARY KEY (state_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.state_bbox_geom (
+  state_key CHAR(2) NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_state_bbox_geom PRIMARY KEY (state_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.state_geo (
+  state_key CHAR(2) NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_state_geo PRIMARY KEY (state_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.state_geom (
+  state_key CHAR(2) NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_state_geom PRIMARY KEY (state_key)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street (
+  street_id INTEGER NOT NULL,
+  display_name VARCHAR(105) NOT NULL,
+  num_addr_range SMALLINT NOT NULL,
+  num_street_name SMALLINT NOT NULL,
+  CONSTRAINT pk_street PRIMARY KEY (street_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_address_range (
+  id INTEGER NOT NULL,
+  street_id INTEGER NOT NULL,
+  CONSTRAINT pk_street_address_range PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_county (
+  id INTEGER NOT NULL,
+  street_id INTEGER NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  CONSTRAINT pk_street_county PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_county_intersection (
+  id INTEGER NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  street_id INTEGER NOT NULL,
+  i_street_id INTEGER NOT NULL,
+  CONSTRAINT pk_street_county_intersection PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_county_place_name (
+  id INTEGER NOT NULL,
+  street_id INTEGER NOT NULL,
+  county_key CHAR(5) NOT NULL,
+  place_name VARCHAR(105) NOT NULL,
+  CONSTRAINT pk_street_county_place_name PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_geo (
+  street_id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_street_geo PRIMARY KEY (street_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_geom (
+  street_id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_street_geom PRIMARY KEY (street_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_name (
+  id INTEGER NOT NULL,
+  street_id INTEGER NOT NULL,
+  display_name VARCHAR(105) NOT NULL,
+  canonical_name VARCHAR(105),
+  parsed_name JSON,
+  CONSTRAINT pk_street_name PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.street_zip (
+  id INTEGER NOT NULL,
+  street_id INTEGER NOT NULL,
+  zipcode CHAR(5) DEFAULT '00000' NOT NULL,
+  CONSTRAINT pk_street_zip PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.travel_dest (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_travel_dest PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.travel_dest_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_travel_dest_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS gis.travel_dest_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_travel_dest_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_area (
+  id INTEGER NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  area_id INTEGER NOT NULL,
+  CONSTRAINT pk_admin_area PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_area_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_admin_area_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_area_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_admin_area_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy2 (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  name VARCHAR(105),
+  polygon_id INTEGER NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_admin_bndy2 PRIMARY KEY (Id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy2_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_admin_bndy2_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy2_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_admin_bndy2_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy3 (
+  id INTEGER NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  area_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_admin_bndy3 PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy3_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_admin_bndy3_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy3_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_admin_bndy3_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy4 (
+  id INTEGER NOT NULL,
+  area_id INTEGER NOT NULL,
+  feature_code INTEGER NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  state_key CHAR(2) NOT NULL,
+  CONSTRAINT pk_admin_bndy4 PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy4_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_admin_bndy4_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_bndy4_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_admin_bndy4_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line1 (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  link_id INTEGER NOT NULL,
+  CONSTRAINT pk_admin_line1 PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line1_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_admin_line1_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line1_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_admin_line1_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line2 (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  link_id INTEGER NOT NULL,
+  admin_name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_admin_line2 PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line2_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_admin_line2_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.admin_line2_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_admin_line2_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.street (
+  link_id INTEGER NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  feature_id INTEGER NOT NULL,
+  prefix VARCHAR(6),
+  street_type_before VARCHAR(6),
+  base VARCHAR(80),
+  street_type_after VARCHAR(6),
+  suffix VARCHAR(6),
+  street_type_att CHAR(1),
+  addr_type CHAR(1),
+  left_ref_addr INTEGER,
+  left_nref_addr INTEGER,
+  left_addr_search CHAR(1),
+  left_addr_form CHAR(2),
+  right_ref_addr INTEGER,
+  right_nref_addr INTEGER,
+  right_addr_search CHAR(1),
+  right_addr_form CHAR(2),
+  num_addr_range SMALLINT,
+  route_type CHAR(1),
+  dir_on_sign CHAR(1),
+  explicatable BOOLEAN NOT NULL,
+  name_on_road_sign BOOLEAN NOT NULL,
+  postal_name BOOLEAN NOT NULL,
+  stale_name BOOLEAN NOT NULL,
+  vanity_name BOOLEAN NOT NULL,
+  junction_name BOOLEAN NOT NULL,
+  exit_name BOOLEAN NOT NULL,
+  scenic_name BOOLEAN NOT NULL,
+  num_of_street_name SMALLINT NOT NULL,
+  ref_end_intx_node_id INTEGER,
+  nref_end_intx_node_id INTEGER,
+  nshape_point SMALLINT,
+  func_class CHAR(1),
+  from_speed_limit SMALLINT,
+  to_speed_limit SMALLINT,
+  to_lanes SMALLINT,
+  from_lanes SMALLINT,
+  geom_enahnced BOOLEAN NOT NULL,
+  left_area_id INTEGER NOT NULL,
+  right_area_id INTEGER NOT NULL,
+  left_zip CHAR(5) NOT NULL,
+  right_zip CHAR(5) NOT NULL,
+  left_num_zone SMALLINT NOT NULL,
+  right_num_zone SMALLINT NOT NULL,
+  ar_motor BOOLEAN NOT NULL,
+  paved BOOLEAN NOT NULL,
+  private BOOLEAN NOT NULL,
+  frontage BOOLEAN NOT NULL,
+  bridge BOOLEAN NOT NULL,
+  tunnel BOOLEAN NOT NULL,
+  ramp BOOLEAN NOT NULL,
+  tollway BOOLEAN NOT NULL,
+  poi_access_road BOOLEAN NOT NULL,
+  controlled_access BOOLEAN NOT NULL,
+  intersection_internal BOOLEAN NOT NULL,
+  undefined_traffic_area BOOLEAN NOT NULL,
+  ferry_type CHAR(1) NOT NULL,
+  multiply_digistised BOOLEAN NOT NULL,
+  max_attribute BOOLEAN NOT NULL,
+  in_proc_data BOOLEAN NOT NULL,
+  full_geometry BOOLEAN NOT NULL,
+  urban BOOLEAN NOT NULL,
+  scenic_route BOOLEAN NOT NULL,
+  four_wheel_drive BOOLEAN NOT NULL,
+  coverage_indicator CHAR(2),
+  parking_lot_road BOOLEAN NOT NULL,
+  reversible BOOLEAN NOT NULL,
+  express_lane BOOLEAN NOT NULL,
+  carpool_lane BOOLEAN NOT NULL,
+  physical_lanes SMALLINT NOT NULL,
+  transport_verified BOOLEAN NOT NULL,
+  public_access BOOLEAN NOT NULL,
+  low_mobility BOOLEAN NOT NULL,
+  priority_road BOOLEAN NOT NULL,
+  transition_area BOOLEAN NOT NULL,
+  CONSTRAINT pk_street PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.alt_street (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(100),
+  feature_id INTEGER NOT NULL,
+  prefix VARCHAR(6),
+  street_type_before VARCHAR(6),
+  base VARCHAR(80),
+  suffix VARCHAR(6),
+  street_type_after VARCHAR(6),
+  street_type_att CHAR(1),
+  addr_type CHAR(1),
+  left_ref_addr INTEGER,
+  left_nref_addr INTEGER,
+  left_addr_search CHAR(1),
+  left_addr_form CHAR(2),
+  right_ref_addr INTEGER,
+  right_nref_addr INTEGER,
+  right_addr_search CHAR(1),
+  right_addr_form CHAR(2),
+  num_addr_range SMALLINT,
+  route_type CHAR(1),
+  dir_on_sign CHAR(1),
+  explicatable BOOLEAN NOT NULL,
+  name_on_road_sign BOOLEAN NOT NULL,
+  postal_name BOOLEAN NOT NULL,
+  stale_name BOOLEAN NOT NULL,
+  vanity_name BOOLEAN NOT NULL,
+  junction_name BOOLEAN NOT NULL,
+  exit_name BOOLEAN NOT NULL,
+  scenic_name BOOLEAN NOT NULL,
+  CONSTRAINT pk_alt_street PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.auto_service (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  open_24 BOOLEAN,
+  has_diesel BOOLEAN,
+  CONSTRAINT pk_auto_service PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.auto_service_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_auto_service_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.auto_service_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_auto_service_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.business (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_business PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.business_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_business_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.business_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_business_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.carto_state (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  link_id INTEGER,
+  left_name VARCHAR(105),
+  right_name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_carto_state PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.carto_state_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_carto_state_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.carto_state_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_carto_state_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.city (
+  id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  CONSTRAINT pk_city PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.city_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_city_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.city_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_city_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.community_service (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_community_service PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.community_service_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_community_service_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.community_service_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_community_service_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.county (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  county_key CHAR(5),
+  CONSTRAINT pk_county PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.county_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_county_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.county_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_county_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.educational_institution (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_educational_institution PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.educational_institution_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_educational_institution_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.educational_institution_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_educational_institution_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.entertainment (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_entertainment PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.entertainment_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_entertainment_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.entertainment_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_entertainment_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.financial_institution (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_financial_institution PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.financial_institution_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_financial_institution_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.financial_institution_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_financial_institution_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hamlet (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_hamlet PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hamlet_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_hamlet_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hamlet_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_hamlet_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hospital (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_hospital PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hospital_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_hospital_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.hospital_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_hospital_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.island (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  polygon_id INTEGER,
+  name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_island PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.island_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_island_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.island_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_island_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_a (
+  id INTEGER NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  state_key CHAR(2) NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_land_use_a PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_a_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_land_use_a_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_a_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_land_use_a_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_b (
+  id INTEGER NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  state_key CHAR(2) NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  CONSTRAINT pk_land_use_b PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_b_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_land_use_b_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.land_use_b_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_land_use_b_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.lane (
+  lane_id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  lane_number SMALLINT NOT NULL,
+  dir_travel CHAR(1) NOT NULL,
+  divider_marker SMALLINT NOT NULL,
+  center_divider_marker SMALLINT NOT NULL,
+  dir_category INTEGER NOT NULL,
+  lane_type INTEGER NOT NULL,
+  transition_area BOOLEAN NOT NULL,
+  lane_forming_ending BOOLEAN NOT NULL,
+  access_auto BOOLEAN NOT NULL,
+  access_bus BOOLEAN NOT NULL,
+  access_taxi BOOLEAN NOT NULL,
+  access_carpool BOOLEAN NOT NULL,
+  access_pedestrian BOOLEAN NOT NULL,
+  access_truck BOOLEAN NOT NULL,
+  access_thru_traffic BOOLEAN NOT NULL,
+  access_delivery BOOLEAN NOT NULL,
+  access_emergency_vehcile BOOLEAN NOT NULL,
+  access_motorcycle BOOLEAN NOT NULL,
+  height SMALLINT NOT NULL,
+  width SMALLINT NOT NULL,
+  from_speed SMALLINT NOT NULL,
+  to_speed SMALLINT NOT NULL,
+  CONSTRAINT pk_lane PRIMARY KEY (lane_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.major_hwy (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  dir_on_sign CHAR(1),
+  func_class CHAR(1),
+  route_type CHAR(1),
+  ferry_type CHAR(1),
+  CONSTRAINT pk_major_hwy PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.major_hwy_shield (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  dir_on_sign CHAR(2) NOT NULL,
+  hwy_type CHAR(2) NOT NULL,
+  label VARCHAR(10),
+  num_label VARCHAR(3),
+  CONSTRAINT pk_major_hwy_shield PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.major_hwy_shield_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_major_hwy_shield_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.major_hwy_shield_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_major_hwy_shield_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.metadata_admin_area (
+  id INTEGER NOT NULL,
+  area_id INTEGER NOT NULL,
+  area_code1 SMALLINT,
+  area_code2 SMALLINT,
+  area_code3 SMALLINT,
+  area_code4 SMALLINT,
+  area_code5 SMALLINT,
+  area_code6 SMALLINT,
+  area_code7 SMALLINT,
+  admin_level SMALLINT,
+  area_name VARCHAR(105),
+  area_name_type CHAR(1),
+  govt_code INTEGER,
+  motorcycle_min_cc VARCHAR(3),
+  uturn_restricted BOOLEAN,
+  CONSTRAINT pk_metadata_admin_area PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.metadata_compound_ref (
+  id INTEGER NOT NULL,
+  ref_class VARCHAR(10) NOT NULL,
+  mod_type INTEGER NOT NULL,
+  mod_value INTEGER NOT NULL,
+  mod_type_desc VARCHAR(120) NOT NULL,
+  mod_value_desc VARCHAR(120) NOT NULL,
+  code VARCHAR(8) NOT NULL,
+  CONSTRAINT pk_metadata_compound_ref PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.misc_category (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_misc_category PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.misc_category_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_misc_category_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.misc_category_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_misc_category_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.named_place (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  population INTEGER,
+  capital SMALLINT,
+  CONSTRAINT pk_named_place PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.named_place_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_named_place_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.named_place_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_named_place_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.ocean (
+  id INTEGER NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  display_class SMALLINT NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  CONSTRAINT pk_ocean PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.ocean_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_ocean_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.ocean_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_ocean_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.park_rec_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_park_rec_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.parking (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_parking PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.parking_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_parking_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.parking_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_parking_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.poi_attr (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  attr_type SMALLINT NOT NULL,
+  attr_value INTEGER NOT NULL,
+  CONSTRAINT pk_poi_attr PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.postal_area (
+  id INTEGER NOT NULL,
+  zip CHAR(5) DEFAULT '00000' NOT NULL,
+  admin1 VARCHAR(80),
+  admin2 VARCHAR(80),
+  admin3 VARCHAR(80),
+  admin4 VARCHAR(80),
+  admin5 VARCHAR(80),
+  state_key CHAR(2),
+  area NUMERIC,
+  postal_code_name VARCHAR(35),
+  postal_type VARCHAR(19),
+  county_name VARCHAR(35),
+  postal_area_name VARCHAR(5),
+  fips_pa CHAR(40),
+  county_fips CHAR(3) NOT NULL,
+  state_fips CHAR(2) NOT NULL,
+  gnis CHAR(10),
+  CONSTRAINT pk_postal_area PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.postal_area_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_postal_area_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.postal_area_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_postal_area_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.railroad (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  state_key CHAR(2) NOT NULL,
+  bridge BOOLEAN NOT NULL,
+  tunnel BOOLEAN NOT NULL,
+  feature_type VARCHAR(40) NOT NULL,
+  CONSTRAINT pk_railroad PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.railroad_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_railroad_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.railroad_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_railroad_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.sec_hwy (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  dir_on_sign CHAR(1),
+  func_class CHAR(1),
+  route_type CHAR(1),
+  ferry_type CHAR(1),
+  CONSTRAINT pk_sec_hwy PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.sec_hwy_shield (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105) NOT NULL,
+  dir_on_sign CHAR(2) NOT NULL,
+  hwy_type CHAR(2) NOT NULL,
+  label VARCHAR(10),
+  num_label VARCHAR(3),
+  CONSTRAINT pk_sec_hwy_shield PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.sec_hwy_shield_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_sec_hwy_shield_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.sec_hwy_shield_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_sec_hwy_shield_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.shopping (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_shopping PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.shopping_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_shopping_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.shopping_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_shopping_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.state (
+  id INTEGER NOT NULL,
+  state_key CHAR(2),
+  state_fips CHAR(2),
+  name VARCHAR(105),
+  CONSTRAINT pk_state PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.state_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_state_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.state_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_state_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.street_geo (
+  link_id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_street_geo PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.street_geom (
+  link_id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_street_geom PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.transportation_hub (
+  id INTEGER NOT NULL,
+  poi_id INTEGER NOT NULL,
+  facility_type INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  street_num VARCHAR(10),
+  street_name VARCHAR(105) NOT NULL,
+  side_of_street CHAR(1),
+  phone VARCHAR(15),
+  chain_id INTEGER NOT NULL,
+  act_address VARCHAR(254),
+  act_street_num VARCHAR(10),
+  act_street_name VARCHAR(50),
+  act_zip VARCHAR(11),
+  act_admin VARCHAR(50),
+  CONSTRAINT pk_transportation_hub PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.transportation_hub_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Point, 4326) NOT NULL,
+  CONSTRAINT pk_transportation_hub_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.transportation_hub_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Point, 3857) NOT NULL,
+  CONSTRAINT pk_transportation_hub_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_polygon (
+  id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  polygon_id INTEGER NOT NULL,
+  name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  display_class SMALLINT NOT NULL,
+  CONSTRAINT pk_water_polygon PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_polygon_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(Polygon, 4326) NOT NULL,
+  CONSTRAINT pk_water_polygon_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_polygon_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(Polygon, 3857) NOT NULL,
+  CONSTRAINT pk_water_polygon_geom PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_segment (
+  link_id INTEGER NOT NULL,
+  state_key CHAR(2) NOT NULL,
+  name VARCHAR(105),
+  feature_type VARCHAR(40) NOT NULL,
+  feature_code INTEGER NOT NULL,
+  display_class SMALLINT NOT NULL,
+  CONSTRAINT pk_water_segment PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_segment_geo (
+  link_id INTEGER NOT NULL,
+  geo GEOMETRY(LineString, 4326) NOT NULL,
+  CONSTRAINT pk_water_segment_geo PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.water_segment_geom (
+  link_id INTEGER NOT NULL,
+  geom GEOMETRY(LineString, 3857) NOT NULL,
+  CONSTRAINT pk_water_segment_geom PRIMARY KEY (link_id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.zlevel (
+  id INTEGER NOT NULL,
+  link_id INTEGER NOT NULL,
+  point_num SMALLINT NOT NULL,
+  node_id INTEGER NOT NULL,
+  zlevel SMALLINT NOT NULL,
+  is_intersect BOOLEAN NOT NULL,
+  dot_shape SMALLINT NOT NULL,
+  aligned BOOLEAN NOT NULL,
+  CONSTRAINT pk_zlevel PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.zone (
+  id INTEGER NOT NULL,
+  link_id INTEGER,
+  zone_id INTEGER,
+  side CHAR(1),
+  CONSTRAINT pk_zone PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS here.zone_metadata (
+  id INTEGER NOT NULL,
+  zone_id INTEGER NOT NULL,
+  zone_name VARCHAR(105) NOT NULL,
+  zone_name_type CHAR(1) NOT NULL,
+  zone_type CHAR(2) NOT NULL,
+  area_id INTEGER NOT NULL,
+  CONSTRAINT pk_zone_metadata PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS ms.building_footprint (
+  id INTEGER NOT NULL,
+  CONSTRAINT pk_building_footprint PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS ms.building_footprint_geo (
+  id INTEGER NOT NULL,
+  geo GEOMETRY(MultiPolygon, 4326) NOT NULL,
+  CONSTRAINT pk_building_footprint_geo PRIMARY KEY (id)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS ms.building_footprint_geom (
+  id INTEGER NOT NULL,
+  geom GEOMETRY(MultiPolygon, 3857) NOT NULL,
+  CONSTRAINT pk_building_footprint_geom PRIMARY KEY (id)
+);
